@@ -32,12 +32,12 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 
 	if _e != nil {
 
-		fmt.Println(body)
-
-		fmt.Println(jwtService.GenerateJWT(body))
+		var retToken = jwtService.GenerateJWT(body)
+		json.NewEncoder(w).Encode(retToken)
 	}
 
 	if err != nil {
 		fmt.Println(err)
 	}
+
 }

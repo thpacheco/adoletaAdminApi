@@ -41,18 +41,19 @@ func CreateProfile(w http.ResponseWriter, r *http.Request) {
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var results []primitive.M                                   //slice for multiple documents
+	var results []userModel.UserDto                             //slice for multiple documents
 	cur, err := userCollection.Find(context.TODO(), bson.D{{}}) //returns a *mongo.Cursor
 
 	if err != nil {
-
 		fmt.Println(err)
 	}
 
 	for cur.Next(context.TODO()) { //Next() gets the next document for corresponding cursor
 
-		var elem primitive.M
+		var elem userModel.UserDto
+
 		err := cur.Decode(&elem)
+
 		if err != nil {
 			log.Fatal(err)
 		}

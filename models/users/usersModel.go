@@ -12,3 +12,9 @@ type UpdateBody struct {
 	Name string `json:"name"` //value that has to be matched
 	City string `json:"city"` // value that has to be modified
 }
+
+type UserDto struct {
+	Name string `json:"name"` //value that has to be matched
+	City string `json:"city"`
+	Age  int    `json:"age"` // value that has to be modified
+}

@@ -38,7 +38,7 @@ func IsAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handle
 	})
 }
 
-func GenerateJWT(user userModel.User) (string, error) {
+func GenerateJWT(user userModel.User) string {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -51,8 +51,7 @@ func GenerateJWT(user userModel.User) (string, error) {
 
 	if err != nil {
 		fmt.Errorf("Something Went Wrong: %s", err.Error())
-		return "", err
 	}
 
-	return tokenString, nil
+	return tokenString
 }
