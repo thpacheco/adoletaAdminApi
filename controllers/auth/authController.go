@@ -1,14 +1,13 @@
 package authController
 
 import (
+	responseBase "adoletaAdminApi/common"
 	cosmoDb "adoletaAdminApi/db"
 	userModel "adoletaAdminApi/models/users"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	jwtService "adoletaAdminApi/jwtSecurity"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -28,16 +27,16 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 
 	err := userCollection.FindOne(context.TODO(), bson.D{{"username", body.UserName}, {"password", body.Password}}).Decode(&body)
 
-	_e := json.NewDecoder(r.Body).Decode(&body)
-
-	if _e != nil {
-
-		var retToken = jwtService.GenerateJWT(body)
-		json.NewEncoder(w).Encode(retToken)
-	}
+	var response responseBase.Data
 
 	if err != nil {
 		fmt.Println(err)
+		response = responseBase.Data{Success: false, Loading: true}
+		json.NewEncoder(w).Encode(response)
+	} else {
+		response = responseBase.Data{Success: true, Loading: false}
+		json.NewEncoder(w).Encode(response)
+
 	}
 
 }

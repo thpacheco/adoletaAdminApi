@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -23,6 +24,14 @@ func main() {
 	s.Handle("/deleteProfile/{id}", jwtService.IsAuthorized(usersController.DeleteProfile)).Methods("DELETE")
 	s.HandleFunc("/auth", authController.Auth).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8000", s)) // Run Server
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+		AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+	})
+
+	handler := c.Handler(route)
+
+	log.Fatal(http.ListenAndServe(":8000", handler)) // Run Server
 
 }
