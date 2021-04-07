@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-var userCollection = cosmoDb.Db().Database("goTest").Collection("users")
+var userCollection = cosmoDb.Db().Database("adoleta").Collection("users")
 
 func Auth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")

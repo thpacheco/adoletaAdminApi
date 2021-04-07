@@ -17,7 +17,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var userCollection = cosmoDb.Db().Database("goTest").Collection("users")
+var userCollection = cosmoDb.Db().Database("adoleta").Collection("users")
 
 func CreateProfile(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json") // for adding       //Content-type

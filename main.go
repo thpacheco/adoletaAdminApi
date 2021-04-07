@@ -4,8 +4,10 @@ import (
 	authController "adoletaAdminApi/controllers/auth"
 	usersController "adoletaAdminApi/controllers/users"
 	jwtService "adoletaAdminApi/jwtSecurity"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -17,8 +19,8 @@ func main() {
 	s := route.PathPrefix("/api").Subrouter() //Base Path
 
 	//Routes
-	// s.Handle("/createProfile", jwtService.IsAuthorized(usersController.CreateProfile)).Methods("POST")
-	s.Handle("/getAllUsers", jwtService.IsAuthorized(usersController.GetAllUsers)).Methods("GET")
+	//s.Handle("/createProfile", jwtService.IsAuthorized(usersController.CreateProfile)).Methods("POST")
+	//s.Handle("/getAllUsers", jwtService.IsAuthorized(usersController.GetAllUsers)).Methods("GET")
 	s.Handle("/getUserProfile", jwtService.IsAuthorized(usersController.GetUserProfile)).Methods("POST")
 	s.Handle("/updateProfile", jwtService.IsAuthorized(usersController.UpdateProfile)).Methods("PUT")
 	s.Handle("/deleteProfile/{id}", jwtService.IsAuthorized(usersController.DeleteProfile)).Methods("DELETE")
@@ -35,6 +37,16 @@ func main() {
 
 	handler := c.Handler(route)
 
-	log.Fatal(http.ListenAndServe(":8000", handler)) // Run Server
+	log.Fatal(http.ListenAndServe(GetPort(), handler)) // Run Server
 
+}
+
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "8000"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	return ":" + port
 }
