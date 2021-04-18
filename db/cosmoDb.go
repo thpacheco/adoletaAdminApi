@@ -10,8 +10,11 @@ import (
 )
 
 func Db() *mongo.Client {
-	var stringUrl string = "mongodb://adoleta:7wQgdY054YQQ2BmJ9GAu1pb0MoqJtJ0f9JabKIDxCzISKIIX7hhNmTS0a2Y1j7QXqYJYna93lAnLFeUGdXqDAQ==@adoleta.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@adoleta@"
-	clientOptions := options.Client().ApplyURI(stringUrl) // Connect to //MongoDB
+	uri := "mongodb+srv://adoleta:AmDmi0cv64LPABdR@cluster0.kjmlo.mongodb.net/adoleta?retryWrites=true&w=majority"
+	
+	// var stringUrl string = "mongodb://adoleta:7wQgdY054YQQ2BmJ9GAu1pb0MoqJtJ0f9JabKIDxCzISKIIX7hhNmTS0a2Y1j7QXqYJYna93lAnLFeUGdXqDAQ==@adoleta.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@adoleta@"
+	
+	clientOptions := options.Client().ApplyURI(uri) // Connect to //MongoDB
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
